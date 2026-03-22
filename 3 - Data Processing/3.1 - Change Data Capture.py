@@ -1,4 +1,8 @@
 # Databricks notebook source
+# /// script
+# [tool.databricks.environment]
+# environment_version = "2"
+# ///
 # MAGIC %md-sandbox
 # MAGIC
 # MAGIC <div  style="text-align: center; line-height: 0; padding-top: 9px;">
@@ -8,6 +12,11 @@
 # COMMAND ----------
 
 # MAGIC %run ../Includes/Copy-Datasets
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC USE databricks_de_professional.bookstore_eng_pro;
 
 # COMMAND ----------
 

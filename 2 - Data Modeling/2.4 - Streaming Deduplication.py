@@ -19,6 +19,42 @@
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC select order_id, count(*) from (
+# MAGIC select json_data.* from (
+# MAGIC select 
+# MAGIC   from_json(
+# MAGIC     cast(value as string), 
+# MAGIC     'STRUCT<order_id: STRING, order_timestamp: TIMESTAMP, customer_id: STRING, quantity: BIGINT, total: BIGINT, books: ARRAY<STRUCT<book_id: STRING, quantity: BIGINT, subtotal: BIGINT>>>' 
+# MAGIC   ) as json_data 
+# MAGIC from bronze
+# MAGIC where topic = 'orders'
+# MAGIC )
+# MAGIC )group by order_id
+# MAGIC having count(*) > 1
+
+# COMMAND ----------
+
+# DBTITLE 1,Check order details by order_id
+# MAGIC %sql
+# MAGIC select json_data.* from (
+# MAGIC select 
+# MAGIC   from_json(
+# MAGIC     cast(value as string), 
+# MAGIC     'STRUCT<order_id: STRING, order_timestamp: TIMESTAMP, customer_id: STRING, quantity: BIGINT, total: BIGINT, books: ARRAY<STRUCT<book_id: STRING, quantity: BIGINT, subtotal: BIGINT>>>' 
+# MAGIC   ) as json_data 
+# MAGIC from bronze
+# MAGIC where topic = 'orders')
+# MAGIC where json_data.order_id = '000000004196'
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC select * from orders_silver
+# MAGIC where order_id = '000000004196'
+
+# COMMAND ----------
+
 from pyspark.sql import functions as F
 
 json_schema = "order_id STRING, order_timestamp Timestamp, customer_id STRING, quantity BIGINT, total BIGINT, books ARRAY<STRUCT<book_id STRING, quantity BIGINT, subtotal BIGINT>>"

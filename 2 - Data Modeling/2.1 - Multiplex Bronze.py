@@ -1,4 +1,8 @@
 # Databricks notebook source
+# /// script
+# [tool.databricks.environment]
+# environment_version = "2"
+# ///
 # MAGIC %md-sandbox
 # MAGIC
 # MAGIC <div  style="text-align: center; line-height: 0; padding-top: 9px;">
@@ -39,7 +43,7 @@ def process_bronze():
                       .option("mergeSchema", True)
                       .partitionBy("topic", "year_month")
                       .trigger(availableNow=True)
-                      .table("bronze"))
+                      .table("databricks_de_professional.bookstore_eng_pro.bronze"))
     
     query.awaitTermination()
 
@@ -55,13 +59,13 @@ display(batch_df)
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC SELECT * FROM bronze
+# MAGIC SELECT * FROM databricks_de_professional.bookstore_eng_pro.bronze
 
 # COMMAND ----------
 
 # MAGIC %sql
 # MAGIC SELECT DISTINCT(topic)
-# MAGIC FROM bronze
+# MAGIC FROM databricks_de_professional.bookstore_eng_pro.bronze
 
 # COMMAND ----------
 
@@ -74,4 +78,4 @@ process_bronze()
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC SELECT COUNT(*) FROM bronze
+# MAGIC SELECT COUNT(*) FROM databricks_de_professional.bookstore_eng_pro.bronze
